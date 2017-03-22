@@ -47,8 +47,6 @@ Color3f FullLightingIntegrator::Li(const Ray &ray, const Scene &scene, std::shar
             Color3f sampledlightenergy = scene.lights[index]->Sample_Li(isect,xi,&wiW_DL,&DLpdf);
             DLpdf /= scene.lights.size();
 
-//            sampledlightenergy /= DLpdf;
-
             Intersection closest = Intersection();
             Ray wiWray_DL = isect.SpawnRay(wiW_DL);
             scene.Intersect(wiWray_DL,&closest);
