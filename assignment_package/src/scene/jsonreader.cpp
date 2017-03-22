@@ -9,6 +9,7 @@
 #include <scene/materials/transmissivematerial.h>
 #include <scene/materials/glassmaterial.h>
 #include <scene/materials/plasticmaterial.h>
+#include <scene/materials/transmissivematerial_microfacet.h>
 #include <scene/lights/diffusearealight.h>
 #include <iostream>
 
@@ -283,6 +284,32 @@ bool JSONReader::LoadMaterial(QJsonObject &material, const QStringRef &local_pat
             normalMap = std::make_shared<QImage>(img_filepath);
         }
         auto result = std::make_shared<TransmissiveMaterial>(Kt, eta, textureMap, normalMap);
+        mtl_map->insert(material["name"].toString(), result);
+    }
+    else if(QString::compare(type, QString("TransmissiveMaterial_Microfacet")) == 0)
+    {
+        std::shared_ptr<QImage> textureMap;
+        std::shared_ptr<QImage> normalMap;
+        std::shared_ptr<QImage> roughnessMap;
+        Color3f Kt = ToVec3(material["Kt"].toArray());
+        float eta = material["eta"].toDouble();
+        float roughness = 0.f;
+        if(material.contains(QString("roughness"))) {
+            roughness = material["roughness"].toDouble();
+        }
+        if(material.contains(QString("roughnessMap"))) {
+            QString img_filepath = local_path.toString().append(material["roughnessMap"].toString());
+            roughnessMap = std::make_shared<QImage>(img_filepath);
+        }
+        if(material.contains(QString("textureMap"))) {
+            QString img_filepath = local_path.toString().append(material["textureMap"].toString());
+            textureMap = std::make_shared<QImage>(img_filepath);
+        }
+        if(material.contains(QString("normalMap"))) {
+            QString img_filepath = local_path.toString().append(material["normalMap"].toString());
+            normalMap = std::make_shared<QImage>(img_filepath);
+        }
+        auto result = std::make_shared<TransmissiveMaterial_Microfacet>(Kt, eta, roughness, roughnessMap, textureMap, normalMap);
         mtl_map->insert(material["name"].toString(), result);
     }
     else if(QString::compare(type, QString("GlassMaterial")) == 0)

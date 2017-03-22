@@ -46,6 +46,8 @@ SOURCES += \
     $$PWD/scene/materials/microfacet.cpp \
     $$PWD/scene/materials/microfacetbrdf.cpp \
     $$PWD/scene/materials/plasticmaterial.cpp \
+    $$PWD/scene/materials/transmissivematerial_microfacet.cpp \
+    $$PWD/scene/materials/microfacetbtdf.cpp
 
 HEADERS += \
     $$PWD/mainwindow.h \
@@ -93,3 +95,5 @@ HEADERS += \
     $$PWD/scene/materials/microfacet.h \
     $$PWD/scene/materials/microfacetbrdf.h \
     $$PWD/scene/materials/plasticmaterial.h \
+    $$PWD/scene/materials/transmissivematerial_microfacet.h \
+    $$PWD/scene/materials/microfacetbtdf.h
